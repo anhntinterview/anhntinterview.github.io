@@ -1,0 +1,125 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('http://fonts.cdnfonts.com/css/sf-pro-display');
+@import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
+
+@layer base {
+    .tooltip {
+        @apply invisible absolute;
+    }
+
+    .has-tooltip:hover .tooltip {
+        @apply visible z-50;
+    }
+    input {
+        @apply focus:ring-0 focus:outline-none;
+    }
+
+    body {
+        font-family: 'SF Pro Display';
+        font-style: normal;
+        font-weight: 600;
+        font-size: 12px;
+        @apply text-rn_black;
+    }
+
+    input[type='text'],
+    input[type='number'],
+    input[type='password'],
+    button {
+        border-radius: 8px;
+        padding: 10px 20px;
+    }
+
+    input {
+        border: 1px solid #c5cee0;
+        box-sizing: border-box;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 20px;
+    }
+
+    input[readOnly] {
+        background: #edf1f7;
+        border: 1px solid #c5cee0;
+        color: #8f9bb3;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 20px;
+    }
+
+    button {
+        font-size: 14px;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    .button-primary {
+        background: linear-gradient(256.28deg, #1c94f4 0%, #1273ea 100%);
+        padding: 10px 20px;
+        color: white;
+        text-align: center;
+        border-radius: 8px;
+    }
+
+    .button-cancel {
+        background: #f7f9fc;
+        color: #1273ea;
+        border-radius: 8px;
+    }
+
+    .button-ico {
+        background: none;
+        padding: 0 0;
+    }
+
+    label {
+        color: #57627b;
+        letter-spacing: 1px;
+    }
+
+    .jumbotron {
+        background: linear-gradient(256.28deg, #1c94f4 0%, #1273ea 100%);
+        box-shadow: 0px 12px 20px -4px #c5cee0;
+        border-radius: 16px;
+    }
+
+    .header {
+        background: #ffffff;
+        box-shadow: 0px 4px 12px #f7f9fc;
+        height: 54px;
+    }
+
+    .content {
+        height: calc(600px - 56px);
+    }
+
+    .max-button {
+        font-family: 'Inter', sans-serif;
+        font-size: 10px;
+        text-transform: uppercase;
+        padding: 0 0;
+    }
+}
+
+/* Change Autocomplete styles in Chrome*/
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
+    input:-webkit-autofill,
+    input:-webkit-autofill:hover,
+    input:-webkit-autofill:focus,
+    textarea:-webkit-autofill,
+    textarea:-webkit-autofill:hover,
+    textarea:-webkit-autofill:focus,
+    select:-webkit-autofill,
+    select:-webkit-autofill:hover,
+    select:-webkit-autofill:focus {
+        border: none;
+        -webkit-text-fill-color: #8f90a6;
+        -webkit-box-shadow: 0 0 #000 inset;
+        transition: background-color 5000s ease-in-out 0s;
+        -webkit-font-smoothing: antialiased;
+        font-weight: 500;
+    }
+}
