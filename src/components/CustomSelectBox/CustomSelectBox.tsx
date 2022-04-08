@@ -9,6 +9,7 @@ interface ICustomSelectBoxProps {
     data: ITransfersAsset[];
     selectedOption: ITransfersAsset;
     setSelectedOption: React.Dispatch<React.SetStateAction<ITransfersAsset>>;
+    setCurrentAmount: React.Dispatch<React.SetStateAction<number>>;
 }
 
 const Main = styled('div')`
@@ -44,6 +45,7 @@ const CustomSelectBox: React.FunctionComponent<ICustomSelectBoxProps> = ({
     data,
     selectedOption,
     setSelectedOption,
+    setCurrentAmount,
 }) => {
     const [isOpen, setIsOpen] = useState(false);
     const toggling = () => setIsOpen(!isOpen);
@@ -62,6 +64,7 @@ const CustomSelectBox: React.FunctionComponent<ICustomSelectBoxProps> = ({
                 },
             },
         }));
+        setCurrentAmount(0);
         setIsOpen(false);
     };
 

@@ -1,7 +1,6 @@
 import * as React from 'react';
 // PACKAGE
-import { Redirect, Route, useHistory } from 'react-router-dom';
-import { SET_AUTH } from 'actions/auth.action';
+import { Redirect, Route } from 'react-router-dom';
 // CONTEXT
 import { AuthContext } from 'contexts/Auth/AuthContext';
 

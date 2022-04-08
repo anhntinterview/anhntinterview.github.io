@@ -1,7 +1,7 @@
 {
     "name": "mock-ronin-wallet",
     "version": "0.1.0",
-    "homepage": "https://anhntinterview.github.io/react-extension/",
+    "homepage": "https://anhntinterview.github.io/",
     "private": true,
     "dependencies": {
         "@craco/craco": "^6.1.2",

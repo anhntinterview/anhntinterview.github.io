@@ -6,6 +6,7 @@ import {
     UseFormTrigger,
 } from 'react-hook-form';
 import { Redirect, useHistory, useRouteMatch } from 'react-router-dom';
+import { ITransfersAsset } from 'types/Sending.type';
 
 export function handleSending(
     setValue: UseFormSetValue<FieldValues>,
@@ -31,17 +32,17 @@ export function openModal(
 
 export function hanldeCurrenrCurrency(
     currentCurrency: number,
-    setCurrentCurrencyAmount: React.Dispatch<React.SetStateAction<number>>
+    setValue: UseFormSetValue<FieldValues>
 ) {
     return (e: React.SyntheticEvent) => {
         e.preventDefault();
-        setCurrentCurrencyAmount(currentCurrency);
+        setValue('amount', currentCurrency);
     };
 }
 
 export function handleChangeToWallet(
     setValue: UseFormSetValue<FieldValues>,
-    trigger: UseFormTrigger<FieldValues>,
+    trigger: UseFormTrigger<FieldValues>
 ) {
     return (event: React.ChangeEvent<HTMLInputElement>) => {
         const { value } = event.target;
@@ -52,26 +53,28 @@ export function handleChangeToWallet(
 
 export function handleChangeCurrencyAmount(
     maxAmount: number,
-    setCurrentAmount: React.Dispatch<React.SetStateAction<number>>,
+    setValue: UseFormSetValue<FieldValues>,
     trigger: UseFormTrigger<FieldValues>
 ) {
     return (event: React.ChangeEvent<HTMLInputElement>) => {
         const { value } = event.target;
-        setCurrentAmount(() => {
-            return parseFloat(value) <= maxAmount
-                ? parseFloat(value)
-                : maxAmount;
-        });
+        setValue('amount', () =>
+            parseFloat(value) <= maxAmount ? parseFloat(value) : maxAmount
+        );
         trigger('amount');
     };
 }
 
-export function onSubmit(getValues: UseFormGetValues<FieldValues>) {
+export function onSendAssetsSubmit(
+    getValues: UseFormGetValues<FieldValues>,
+    setModal: React.Dispatch<React.SetStateAction<boolean>>,
+    selectedOption: ITransfersAsset
+) {
     return () => {
+        setModal(true);
         const from = getValues('from');
         const to = getValues('to');
-        const asset = getValues('asset');
         const amount = getValues('amount');
-        console.log(from, to, asset, amount);
+        console.log(from, to, selectedOption.transfers.from.currency, amount);
     };
 }

@@ -12,14 +12,14 @@ import {
     handleChangeCurrencyAmount,
     handleChangeToWallet,
     hanldeCurrenrCurrency,
-    onSubmit,
+    onSendAssetsSubmit,
     openModal,
 } from './SendAssetsFn';
 // CONTEXTS
-import { SendingContext } from 'contexts/Sending/SendingContext';
 import ASSETS from 'assets';
 // TYPES
 import { ITransfersAsset } from 'types/Sending.type';
+import { FORM_ERROR } from 'constant/form.const';
 
 export interface ISendAssetsPageProps {
     localStorageUid: string;
@@ -57,6 +57,8 @@ const SendAssetsPage: React.FunctionComponent<ISendAssetsPageProps> = ({
         formState: { errors },
     } = useForm();
 
+    console.log(errors);
+
     return (
         <div className="send-assets p-5 relative">
             <div className="flex header items-center justify-center">
@@ -69,7 +71,9 @@ const SendAssetsPage: React.FunctionComponent<ISendAssetsPageProps> = ({
             </div>
             <form
                 className="flex flex-col justify-between items-center content"
-                onSubmit={handleSubmit(onSubmit(getValues))}
+                onSubmit={handleSubmit(
+                    onSendAssetsSubmit(getValues, setModal, selectedOption)
+                )}
             >
                 <div className="w-full">
                     <div className="flex flex-col">
@@ -97,9 +101,10 @@ const SendAssetsPage: React.FunctionComponent<ISendAssetsPageProps> = ({
                         <div className="flex justify-center items-center w-full">
                             <input
                                 className="w-full"
-                                type="text"
+                                type="number"
                                 {...register('to', {
                                     required: true,
+                                    valueAsNumber: true,
                                     setValueAs: (value: any) => value.trim(),
                                 })}
                                 onChange={handleChangeToWallet(
@@ -108,6 +113,11 @@ const SendAssetsPage: React.FunctionComponent<ISendAssetsPageProps> = ({
                                 )}
                             />
                         </div>
+                        {errors?.to?.type === 'required' && (
+                            <span className="text-red-500 text-sm leading-5 font-normal">
+                                {FORM_ERROR.IS_REQUIRED}
+                            </span>
+                        )}
                     </div>
                     <div className="flex flex-col">
                         <label className="uppercase text-rn_10px text-base ml-2 mt-4">
@@ -118,10 +128,7 @@ const SendAssetsPage: React.FunctionComponent<ISendAssetsPageProps> = ({
                                 data={data}
                                 selectedOption={selectedOption}
                                 setSelectedOption={setSelectedOption}
-                                {...register('asset', {
-                                    required: true,
-                                    setValueAs: (value: any) => value.trim(),
-                                })}
+                                setCurrentAmount={setCurrentAmount}
                             />
                         </div>
                     </div>
@@ -136,29 +143,33 @@ const SendAssetsPage: React.FunctionComponent<ISendAssetsPageProps> = ({
                             </label>
                         </div>
 
-                        <div className="flex justify-center items-center w-full">
-                            <input
-                                className="w-full"
-                                type="number"
-                                value={currentAmount}
-                                {...register('amount', {
-                                    required: true,
-                                    setValueAs: (value: any) => value.trim(),
-                                })}
-                                onChange={handleChangeCurrencyAmount(
-                                    parseFloat(
-                                        selectedOption.transfers.from.amount.replace(
-                                            ',',
-                                            ''
-                                        )
-                                    ),
-                                    setCurrentAmount,
-                                    trigger
-                                )}
-                            />
+                        <div className="flex flex-col justify-center items-center w-full relative">
+                            <div className="flex flex-col w-full">
+                                <input
+                                    className="w-full"
+                                    type="number"
+                                    value={currentAmount}
+                                    {...register('amount', {
+                                        required: true,
+                                        setValueAs: (value: any) =>
+                                            value.trim(),
+                                        valueAsNumber: true,
+                                    })}
+                                    onChange={handleChangeCurrencyAmount(
+                                        parseFloat(
+                                            selectedOption.transfers.from.amount.replace(
+                                                ',',
+                                                ''
+                                            )
+                                        ),
+                                        setValue,
+                                        trigger
+                                    )}
+                                />
+                            </div>
                             <CommonButton
                                 classStyle={
-                                    'uppercase w-rn_41px h-5 bg-rn_light_gray max-button text-center absolute right-8'
+                                    'uppercase w-rn_41px h-5 bg-rn_light_gray max-button text-center absolute right-3 top-1/4'
                                 }
                                 type="circular"
                                 title="max"
@@ -169,10 +180,15 @@ const SendAssetsPage: React.FunctionComponent<ISendAssetsPageProps> = ({
                                             ''
                                         )
                                     ),
-                                    setCurrentAmount
+                                    setValue
                                 )}
                             />
                         </div>
+                        {(errors?.amount?.type === 'required') && (
+                            <span className="text-red-500 text-sm leading-5 font-normal">
+                                {FORM_ERROR.IS_REQUIRED}
+                            </span>
+                        )}
                     </div>
                 </div>
                 <div className="flex w-full">
@@ -188,7 +204,6 @@ const SendAssetsPage: React.FunctionComponent<ISendAssetsPageProps> = ({
                         classStyle={'block button-primary w-40 h-10'}
                         type="circular"
                         title="Send"
-                        onClickButton={openModal(setModal)}
                     />
                 </div>
             </form>

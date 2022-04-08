@@ -56,7 +56,8 @@ module.exports = {
                 rn_160px: '160px',
                 rn_202px: '202px',
                 rn_600px: '600px',
-                rn_60px: '60px'
+                rn_60px: '60px',
+                rn_42px: '42px'
             },
             width: {
                 rn_375px: '375px',
