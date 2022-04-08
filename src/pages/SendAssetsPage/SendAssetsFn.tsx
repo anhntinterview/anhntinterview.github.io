@@ -57,10 +57,9 @@ export function handleChangeCurrencyAmount(
     trigger: UseFormTrigger<FieldValues>
 ) {
     return (event: React.ChangeEvent<HTMLInputElement>) => {
-        const { value } = event.target;
-        setValue('amount', () =>
-            parseFloat(value) <= maxAmount ? parseFloat(value) : maxAmount
-        );
+        const { valueAsNumber } = event.target;
+        const rs =  valueAsNumber <= maxAmount ? valueAsNumber : maxAmount
+        setValue('amount', rs);
         trigger('amount');
     };
 }
