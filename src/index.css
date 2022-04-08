@@ -56,6 +56,11 @@
         cursor: pointer;
     }
 
+    button[disabled] {
+        color: #F7F9FC;
+        background: #8F9BB3;
+    }
+
     .button-primary {
         background: linear-gradient(256.28deg, #1c94f4 0%, #1273ea 100%);
         padding: 10px 20px;

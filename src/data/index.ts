@@ -32,7 +32,7 @@ export const assetData: ITransfersAsset[] = [
         img: ASSETS.YEN,
         transfers: {
             from: {
-                amount: '1,000',
+                amount: '2,000',
                 currency: 'yen',
             },
             to: {

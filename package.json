@@ -10,6 +10,7 @@
         "@fortawesome/react-fontawesome": "^0.1.14",
         "@headlessui/react": "^1.4.1",
         "@heroicons/react": "^1.0.1",
+        "@hookform/error-message": "^2.0.0",
         "@react-hook/click": "^2.0.0",
         "@tailwindcss/forms": "^0.3.2",
         "@testing-library/jest-dom": "^5.11.4",

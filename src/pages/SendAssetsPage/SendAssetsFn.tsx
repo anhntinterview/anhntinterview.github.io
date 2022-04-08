@@ -2,6 +2,7 @@
 import {
     FieldValues,
     UseFormGetValues,
+    UseFormSetError,
     UseFormSetValue,
     UseFormTrigger,
 } from 'react-hook-form';
@@ -52,14 +53,12 @@ export function handleChangeToWallet(
 }
 
 export function handleChangeCurrencyAmount(
-    maxAmount: number,
     setValue: UseFormSetValue<FieldValues>,
-    trigger: UseFormTrigger<FieldValues>
+    trigger: UseFormTrigger<FieldValues>,
 ) {
     return (event: React.ChangeEvent<HTMLInputElement>) => {
         const { valueAsNumber } = event.target;
-        const rs =  valueAsNumber <= maxAmount ? valueAsNumber : maxAmount
-        setValue('amount', rs);
+        setValue('amount', valueAsNumber);
         trigger('amount');
     };
 }

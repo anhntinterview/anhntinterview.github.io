@@ -9,7 +9,8 @@ interface CommonButtonProps {
     ref?: React.LegacyRef<HTMLButtonElement> | undefined;
     type?: 'bar' | 'circular';
     actionType?: 'submit' | 'reset' | 'button';
-    icon?: string
+    icon?: string;
+    conditionDisable?: boolean
 }
 
 const CommonButton: React.FC<CommonButtonProps> = (props) => {
@@ -20,7 +21,8 @@ const CommonButton: React.FC<CommonButtonProps> = (props) => {
         onClickButton,
         type = 'circular',
         actionType,
-        icon
+        icon,
+        conditionDisable
     } = props;
 
     return (
@@ -28,6 +30,7 @@ const CommonButton: React.FC<CommonButtonProps> = (props) => {
             className={`${classStyle}`}
             onClick={onClickButton || undefined}
             type={actionType}
+            disabled={conditionDisable}
         >
             {loading && (
                 <Transition

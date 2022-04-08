@@ -3,6 +3,7 @@ import * as React from 'react';
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { ErrorMessage } from '@hookform/error-message';
 // COMPONENTS
 import CustomSelectBox from 'components/CustomSelectBox';
 import CommonButton from 'components/CommonButton';
@@ -30,7 +31,6 @@ const SendAssetsPage: React.FunctionComponent<ISendAssetsPageProps> = ({
     localStorageUid,
     data,
 }) => {
-    const [currentAmount, setCurrentAmount] = useState<number>();
     const initSelectedOption = {
         img: data[0].img,
         transfers: {
@@ -57,7 +57,11 @@ const SendAssetsPage: React.FunctionComponent<ISendAssetsPageProps> = ({
         formState: { errors },
     } = useForm();
 
-    console.log(errors);
+    const convertCurrentAmount = parseFloat(
+        selectedOption.transfers.from.amount.replace(',', '')
+    );
+
+    const isExceedingLimit = getValues('amount') > convertCurrentAmount;
 
     return (
         <div className="send-assets p-5 relative">
@@ -128,7 +132,7 @@ const SendAssetsPage: React.FunctionComponent<ISendAssetsPageProps> = ({
                                 data={data}
                                 selectedOption={selectedOption}
                                 setSelectedOption={setSelectedOption}
-                                setCurrentAmount={setCurrentAmount}
+                                setValue={setValue}
                             />
                         </div>
                     </div>
@@ -148,7 +152,6 @@ const SendAssetsPage: React.FunctionComponent<ISendAssetsPageProps> = ({
                                 <input
                                     className="w-full"
                                     type="number"
-                                    value={currentAmount}
                                     {...register('amount', {
                                         required: true,
                                         setValueAs: (value: any) =>
@@ -156,12 +159,6 @@ const SendAssetsPage: React.FunctionComponent<ISendAssetsPageProps> = ({
                                         valueAsNumber: true,
                                     })}
                                     onChange={handleChangeCurrencyAmount(
-                                        parseFloat(
-                                            selectedOption.transfers.from.amount.replace(
-                                                ',',
-                                                ''
-                                            )
-                                        ),
                                         setValue,
                                         trigger
                                     )}
@@ -174,19 +171,19 @@ const SendAssetsPage: React.FunctionComponent<ISendAssetsPageProps> = ({
                                 type="circular"
                                 title="max"
                                 onClickButton={hanldeCurrenrCurrency(
-                                    parseFloat(
-                                        selectedOption.transfers.from.amount.replace(
-                                            ',',
-                                            ''
-                                        )
-                                    ),
+                                    convertCurrentAmount,
                                     setValue
                                 )}
                             />
                         </div>
-                        {(errors?.amount?.type === 'required') && (
+                        {errors?.amount?.type === 'required' && (
                             <span className="text-red-500 text-sm leading-5 font-normal">
                                 {FORM_ERROR.IS_REQUIRED}
+                            </span>
+                        )}
+                        {isExceedingLimit && (
+                            <span className="text-red-500 text-sm leading-5 font-normal">
+                                {`${FORM_ERROR.MAX_VALUE} ${convertCurrentAmount} ${selectedOption.transfers.from.currency}`}
                             </span>
                         )}
                     </div>
@@ -204,6 +201,7 @@ const SendAssetsPage: React.FunctionComponent<ISendAssetsPageProps> = ({
                         classStyle={'block button-primary w-40 h-10'}
                         type="circular"
                         title="Send"
+                        conditionDisable={isExceedingLimit}
                     />
                 </div>
             </form>

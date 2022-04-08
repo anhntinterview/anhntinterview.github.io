@@ -4,12 +4,13 @@ import styled from 'styled-components';
 import ASSETS from 'assets';
 import MenuPopup from 'components/Modal/MenuPopup';
 import { ITransfersAsset } from 'types/Sending.type';
+import { FieldValues, UseFormSetValue } from 'react-hook-form';
 
 interface ICustomSelectBoxProps {
     data: ITransfersAsset[];
     selectedOption: ITransfersAsset;
     setSelectedOption: React.Dispatch<React.SetStateAction<ITransfersAsset>>;
-    setCurrentAmount: React.Dispatch<React.SetStateAction<number>>;
+    setValue: UseFormSetValue<FieldValues>;
 }
 
 const Main = styled('div')`
@@ -45,7 +46,7 @@ const CustomSelectBox: React.FunctionComponent<ICustomSelectBoxProps> = ({
     data,
     selectedOption,
     setSelectedOption,
-    setCurrentAmount,
+    setValue,
 }) => {
     const [isOpen, setIsOpen] = useState(false);
     const toggling = () => setIsOpen(!isOpen);
@@ -64,8 +65,8 @@ const CustomSelectBox: React.FunctionComponent<ICustomSelectBoxProps> = ({
                 },
             },
         }));
-        setCurrentAmount(0);
         setIsOpen(false);
+        setValue('amount', 0);
     };
 
     return (
